@@ -38,6 +38,12 @@ namespace Entitas.Unity {
 
     public static class EntityLinkExtension {
 
+        //[fixed as source]
+        public static bool HasEntity(this GameObject gameObject)
+        {
+            return gameObject != null && gameObject.GetComponent<EntityLink>() != null;
+        }
+
         public static EntityLink GetEntityLink(this GameObject gameObject) {
             return gameObject.GetComponent<EntityLink>();
         }

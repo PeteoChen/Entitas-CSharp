@@ -34,7 +34,17 @@ namespace Entitas.CodeGeneration.Unity.Editor {
             preferences.AddProperties(_codeGeneratorConfig.defaultProperties, false);
             _codeGeneratorConfig.Configure(preferences);
 
+            /*
+            [fixed as source]
             _types = CodeGeneratorUtil.LoadTypesFromPlugins(preferences);
+            */
+
+            var types = new List<Type>();
+            types.AddRange(CodeGeneratorUtil.LoadTypesFromPlugins<ICodeGeneratorDataProvider>(preferences));
+            types.AddRange(CodeGeneratorUtil.LoadTypesFromPlugins<ICodeGenerator>(preferences));
+            types.AddRange(CodeGeneratorUtil.LoadTypesFromPlugins<ICodeGenFilePostProcessor>(preferences));
+
+            _types = types.ToArray();
 
             setTypesAndNames<ICodeGeneratorDataProvider>(_types, out _availableDataProviderTypes, out _availableDataProviderNames);
             setTypesAndNames<ICodeGenerator>(_types, out _availableGeneratorTypes, out _availableGeneratorNames);

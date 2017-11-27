@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Entitas.Utils;
 
 namespace Entitas.CodeGeneration.CodeGenerator {
@@ -8,7 +9,16 @@ namespace Entitas.CodeGeneration.CodeGenerator {
     public static class CodeGeneratorUtil {
 
         public static CodeGenerator CodeGeneratorFromPreferences(Preferences preferences) {
-            var types = LoadTypesFromPlugins(preferences);
+
+            //[fixed as source]
+            //var types = LoadTypesFromPlugins(preferences);
+
+            var typesList = new List<Type>();
+            typesList.AddRange(LoadTypesFromPlugins<ICodeGeneratorDataProvider>(preferences));
+            typesList.AddRange(LoadTypesFromPlugins<ICodeGenerator>(preferences));
+            typesList.AddRange(LoadTypesFromPlugins<ICodeGenFilePostProcessor>(preferences));
+
+            var types = typesList.ToArray();
 
             var config = new CodeGeneratorConfig();
             config.Configure(preferences);
@@ -30,15 +40,24 @@ namespace Entitas.CodeGeneration.CodeGenerator {
             }
         }
 
-        public static Type[] LoadTypesFromPlugins(Preferences preferences) {
+        public static Type[] LoadTypesFromPlugins<T>(Preferences preferences){
             var config = new CodeGeneratorConfig();
             config.Configure(preferences);
+
+            var types = from t in Assembly.GetExecutingAssembly().GetTypes()
+                        where typeof(T).IsAssignableFrom(t)
+                        select t;
+            return types.ToArray();
+
+            /*
+            [fixed as source]
             var resolver = new AssemblyResolver(AppDomain.CurrentDomain, config.searchPaths);
             foreach (var path in config.plugins) {
                 resolver.Load(path);
             }
 
             return resolver.GetTypes();
+            */
         }
 
         public static T[] GetOrderedInstancesOf<T>(Type[] types) where T : ICodeGeneratorInterface {

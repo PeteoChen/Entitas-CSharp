@@ -69,7 +69,10 @@ namespace Entitas.Unity.Editor {
         }
 
         public static string GetLocalVersion() {
-            return EntitasResources.GetVersion();
+            //return EntitasResources.GetVersion();
+
+            //[fixed as source]
+            return "0.45.1";
         }
 
         public static string GetRemoteVersion() {
