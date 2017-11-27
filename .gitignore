@@ -13,6 +13,7 @@ ProjectVersion.txt
 *-CSharp.csproj
 *-CSharp-Editor.csproj
 *-CSharp-Editor-vs.csproj
+*.meta
 
 # Xamarin
 obj
