@@ -13,7 +13,7 @@ namespace Entitas.CodeGeneration.Unity.Editor {
 
     public static class UnityCodeGenerator {
 
-        [MenuItem("Tools/Entitas/Generate #%g", false, 100)]
+        [MenuItem("Commando/Entitas/Generate #%g", false, 100)]
         public static void Generate() {
             checkCanGenerate();
 
@@ -83,7 +83,7 @@ namespace Entitas.CodeGeneration.Unity.Editor {
             }
         }
 
-        [MenuItem("Tools/Entitas/Generate with external Code Generator %&g", false, 101)]
+        [MenuItem("Commando/Entitas/Generate with external Code Generator %&g", false, 101)]
         public static void GenerateExternal() {
             Debug.Log("Connecting...");
 

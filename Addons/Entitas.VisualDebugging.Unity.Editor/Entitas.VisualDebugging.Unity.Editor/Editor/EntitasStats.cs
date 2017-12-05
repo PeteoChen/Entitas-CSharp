@@ -10,7 +10,7 @@ namespace Entitas.VisualDebugging.Unity.Editor {
 
     public static class EntitasStats {
 
-        [MenuItem("Tools/Entitas/Show Stats", false, 200)]
+        [MenuItem("Commando/Entitas/Show Stats", false, 200)]
         public static void ShowStats() {
             var stats = string.Join("\n", GetStats()
                                     .Select(kv => kv.Key + ": " + kv.Value)

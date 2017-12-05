@@ -9,7 +9,7 @@ namespace Entitas.Migration.Unity.Editor {
 
     public class MigrationWindow : EditorWindow {
 
-        [MenuItem("Tools/Entitas/Migrate...", false, 1000)]
+        [MenuItem("Commando/Entitas/Migrate...", false, 1000)]
         public static void OpenMigrate() {
             EntitasEditorLayout.ShowWindow<MigrationWindow>("Entitas Migration - " + CheckForUpdates.GetLocalVersion());
         }
