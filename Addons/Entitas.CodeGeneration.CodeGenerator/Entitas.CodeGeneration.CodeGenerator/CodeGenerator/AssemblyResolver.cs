@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Fabl;
+using Commando;
+//using Fabl;
 
 namespace Entitas.CodeGeneration.CodeGenerator {
 
     public class AssemblyResolver {
 
-        static readonly Logger _logger = fabl.GetLogger(typeof(AssemblyResolver).Name);
+        //static readonly Logger _logger = fabl.GetLogger(typeof(AssemblyResolver).Name);
 
         readonly AppDomain _appDomain;
         readonly string[] _basePaths;
@@ -23,7 +24,8 @@ namespace Entitas.CodeGeneration.CodeGenerator {
         }
 
         public void Load(string path) {
-            _logger.Debug("AppDomain load: " + path);
+            //_logger.Debug("AppDomain load: " + path);
+            CLog.Log("AppDomain load: " + path, ChannelType.Entitas);
             var assembly = _appDomain.Load(path);
             _assemblies.Add(assembly);
         }
@@ -31,7 +33,8 @@ namespace Entitas.CodeGeneration.CodeGenerator {
         Assembly onAssemblyResolve(object sender, ResolveEventArgs args) {
             Assembly assembly = null;
             try {
-                _logger.Debug("  - Loading: " + args.Name);
+                //_logger.Debug("  - Loading: " + args.Name);
+                CLog.Log("  - Loading: " + args.Name, ChannelType.Entitas);
                 assembly = Assembly.LoadFrom(args.Name);
             } catch(Exception) {
                 var name = new AssemblyName(args.Name).Name;
@@ -52,12 +55,14 @@ namespace Entitas.CodeGeneration.CodeGenerator {
             foreach (var basePath in _basePaths) {
                 var path = basePath + Path.DirectorySeparatorChar + assemblyName;
                 if (File.Exists(path)) {
-                    _logger.Debug("    - Resolved: " + path);
+                    //_logger.Debug("    - Resolved: " + path);
+                    CLog.Log("    - Resolved: " + path, ChannelType.Entitas);
                     return path;
                 }
             }
 
-            _logger.Warn("    - Could not resolve: " + assemblyName);
+            //_logger.Warn("    - Could not resolve: " + assemblyName);
+            CLog.Warning("    - Could not resolve: " + assemblyName,ChannelType.Entitas);
             return null;
         }
 
